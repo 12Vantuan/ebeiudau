@@ -1,0 +1,231 @@
+<!DOCTYPE html>Add commentMore actions
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chúc Mừng Ebe Ngày 1/6 Yêu Thương 💖</title>
+<style>
+  /* Reset */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body, html {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    position: relative;
+    color: #fff;
+    user-select: none;
+  }
+  h1 {
+    font-size: 3rem;
+    text-align: center;
+    margin-top: 40px;
+    text-shadow: 0 0 10px #ff007f;
+  }
+  #typewriter {
+    max-width: 600px;
+    margin: 30px auto;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    text-align: center;
+    text-shadow: 0 0 5px #ffb6c1;
+    min-height: 120px;
+  }
+  button {
+    display: block;
+    margin: 20px auto;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    background: #ff3366;
+    border: none;
+    border-radius: 40px;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255,51,102,0.6);
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  button:hover {
+    background: #ff6699;
+    transform: scale(1.1);
+  }
+
+  /* Hearts floating */
+  .heart {
+    position: fixed;
+    color: #ff4b79;
+    font-size: 24px;
+    animation: floatUp 5s linear infinite;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1000;
+  }
+  @keyframes floatUp {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100vh) scale(0.5);
+      opacity: 0;
+    }
+  }
+
+  /* Sakura petals */
+  .petal {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: url('https://i.imgur.com/7Rj0mVp.png') no-repeat center/contain;
+    opacity: 0.8;
+    animation: fallPetal linear forwards;
+    pointer-events: none;
+    z-index: 999;
+  }
+  @keyframes fallPetal {
+    0% {
+      transform: translateY(-20px) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(110vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  /* Fireworks canvas */
+  #fireworksCanvas {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 1001;
+  }
+</style>
+</head>
+<body>
+
+<h1>Chúc Mừng Ngày 1/6 - Bé Yêu Của Anh 💖</h1>
+<div id="typewriter"></div>
+<button id="surpriseBtn">🎁 Nhận quà chúc bất ngờ!</button>
+
+<canvas id="fireworksCanvas"></canvas>
+
+<audio autoplay loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
+  Trình duyệt của bạn không hỗ trợ thẻ audio.
+</audio>
+
+<script>
+  // Typewriter effect
+  const text = "Ngày 1/6 đến rồi, anh chúc bé luôn vui vẻ, hạnh phúc như những ngày bé vẫn làm anh cười. Bé là ánh sáng và niềm vui mỗi ngày của anh, mãi bên anh nhé!";
+  let idx = 0;
+  const typewriterEl = document.getElementById('typewriter');
+  function typeWriter() {
+    if (idx < text.length) {
+      typewriterEl.innerHTML += text.charAt(idx) === '\n' ? '<br>' : text.charAt(idx);
+      idx++;
+      setTimeout(typeWriter, 50);
+    }
+  }
+  typeWriter();
+
+  // Floating hearts
+  setInterval(() => {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    heart.style.fontSize = 15 + Math.random() * 20 + 'px';
+    heart.style.animationDuration = 4000 + Math.random() * 3000 + 'ms';
+    heart.textContent = '❤️';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 7000);
+  }, 300);
+
+  // Sakura petals falling
+  function createPetal() {
+    const petal = document.createElement('div');
+    petal.className = 'petal';
+    petal.style.left = Math.random() * window.innerWidth + 'px';
+    petal.style.animationDuration = 6000 + Math.random() * 4000 + 'ms';
+    petal.style.animationDelay = Math.random() * 5000 + 'ms';
+    document.body.appendChild(petal);
+    setTimeout(() => petal.remove(), 11000);
+  }
+  setInterval(createPetal, 300);
+
+  // Fireworks canvas
+  const canvas = document.getElementById('fireworksCanvas');
+  const ctx = canvas.getContext('2d');
+  let cw, ch;
+  function resize() {
+    cw = canvas.width = window.innerWidth;
+    ch = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  class FireworkParticle {
+    constructor(x, y, color) {
+      this.x = x;
+      this.y = y;
+      this.color = color;
+      this.radius = 2 + Math.random() * 2;
+      this.speedX = (Math.random() - 0.5) * 6;
+      this.speedY = (Math.random() - 0.5) * 6;
+      this.alpha = 1;
+      this.decay = 0.02 + Math.random() * 0.015;
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.alpha -= this.decay;
+      this.radius *= 0.96;
+    }
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.beginPath();
+      ctx.fillStyle = this.color;
+      ctx.shadowColor = this.color;
+      ctx.shadowBlur = 8;
+      ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  let particles = [];
+  function launchFireworks() {
+    const centerX = Math.random() * cw * 0.7 + cw * 0.15;
+    const centerY = Math.random() * ch * 0.5 + ch * 0.3;
+    const colors = ['#ff3366', '#ff66a3', '#ff99c8', '#ffb6c1', '#ffd6dd'];
+    for (let i = 0; i < 70; i++) {
+      particles.push(new FireworkParticle(centerX, centerY, colors[Math.floor(Math.random() * colors.length)]));
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, cw, ch);
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      if (p.alpha <= 0 || p.radius <= 0.1) {
+        particles.splice(i, 1);
+        continue;
+      }
+      p.update();
+      p.draw();
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Nút hiện lời chúc
+  document.getElementById('surpriseBtn').addEventListener('click', () => {
+    launchFireworks();
+    alert("Quà là anh nè. Ngày 1/6 vui vẻ, bé yêu! Anh luôn bên bé và thương bé nhiều lắm! 💕");
+  });
+</script>Add commentMore actions
+
+</body>
+</html>
